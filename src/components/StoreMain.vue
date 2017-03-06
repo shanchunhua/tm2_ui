@@ -72,22 +72,16 @@
       </div>
     </div>
     <div v-show="menu===2">
-      <div class="item" @click="gotoBuy(item.id)">
+      <div class="item" v-link="{path:'/discountcardlist'}">
         <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
         <div>
-          <h4 class="weui_media_title">统一折扣卡</h4>
+          <h4 class="weui_media_title">分类折扣卡</h4>
         </div>
       </div>
-      <div class="item" @click="gotoBuy(item.id)">
+      <div class="item"  v-link="{path:'/timescardlist'}">
         <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
         <div>
-          <h4 class="weui_media_title">统一折扣卡</h4>
-        </div>
-      </div>
-      <div class="item" @click="gotoBuy(item.id)">
-        <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
-        <div>
-          <h4 class="weui_media_title">统一折扣卡</h4>
+          <h4 class="weui_media_title">次卡</h4>
         </div>
       </div>
     </div>

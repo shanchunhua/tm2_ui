@@ -6,12 +6,6 @@
         <h4 class="weui_media_title">{{item.name}}</h4>
         <p>有效期<span class="right">{{item.name}}</span></p>
         <p>￥{{item.price}}元<span style="padding-left:20px;"></span><span class="right"></span></p>
-        <p>最高折扣<span class="right" @click="toggleDetail(item)">查看全部∨{{item.show}}</span></p>
-        <div class="detail" v-show="item.show">
-          <p v-for="subItem in item.items">
-            {{subItem.catalog.name}}<span class="right">{{subItem.discount}}%</span>
-          </p>
-        </div>
       </div>
     </div>
   </group>
@@ -69,12 +63,9 @@ export default {
     },
     loadCards: function() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/card/discountcard').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/card/timescard').then(function(res) {
         console.log(res)
         self.cards = res.data.data
-        self.cards = Object.assign([], self.cards, {
-          show: false
-        })
         console.log(self.cards)
       }, function(res) {
         console.log(res)
@@ -108,7 +99,7 @@ export default {
       })
     },
     gotoBuy: function(item) {
-      constants.putObject('discountcard', item)
+      constants.putObject('timescard', item)
       this.$router.go({
         path: 'serviceorderform',
         query: {

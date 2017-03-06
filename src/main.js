@@ -27,6 +27,7 @@ import CustomerList from './components/CustomerList'
 import ValueSelection from './components/ValueSelection'
 import ServiceList from './components/ServiceList'
 import DiscountCardList from './components/DiscountCardList'
+import TimesCardList from './components/TimesCardList'
 import PickStaff from './components/PickStaff'
 import StoreProductForm from './components/StoreProductForm'
 import DiscountCardForm from './components/DiscountCardForm'
@@ -148,6 +149,9 @@ router.map({
   },
   '/discountcardlist': {
     component: DiscountCardList
+  },
+  '/timescardlist': {
+    component: TimesCardList
   }
 })
 

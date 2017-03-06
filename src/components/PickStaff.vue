@@ -52,7 +52,6 @@ export default {
   },
   ready: function() {
     this.loadStaffs()
-    console.log(constants.getObject('service'))
   },
   data() {
     return {
@@ -78,7 +77,8 @@ export default {
       this.$router.go({
         path: 'serviceorderform',
         query: {
-          id: item.id
+          id: item.id,
+          ptype: 1
         }
       })
     }
