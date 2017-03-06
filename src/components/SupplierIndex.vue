@@ -5,8 +5,8 @@
       <img src="http://wx.qlogo.cn/mmopen/lzRBkYgd0zCwQlNJMIHOEpUFuDp8pk3ZyWTWic27EQZapVibYExhXaqDbP0g0wM8cDOzIMiapyOicJUYqHYazFF5pE2XWhFIpypb/0" />
     </div>
     <div style="padding-top:30px;margin-left:10px;float:left;">
-      <p>{{summary.store.name}}</p>
-      <p>{{summary.store.address}}</p>
+      <p>{{summary.supplier.name}}</p>
+      <p>{{summary.supplier.address}}</p>
     </div>
   </div>
   <tab :line-width=2 active-color='#fc378c' :index.sync="index" class="menuCt">
@@ -16,13 +16,20 @@
     </tab-item>
     <tab-item class="vux-center menu">
       <div>
-        <p><span class="number">{{summary.supplierCount}}</span>家</p>我的发品商</div>
+        <p><span class="number">{{summary.storeCount}}</span>家</p>我的店铺</div>
     </tab-item>
     <tab-item class="vux-center menu">
       <div>
-        <p><span class="number">{{summary.totalAmount}}</span><span>元</span></p>我的金额</div>
+        <p><span class="number">{{summary.totalAmount}}</span><span>元</span></p>我的业绩</div>
     </tab-item>
   </tab>
+  <swiper :index.sync="index" :show-dots="false" height="1px">
+    <swiper-item>
+    </swiper-item>
+    <swiper-item>
+    </swiper-item>
+  </swiper>
+  </div>
   <div style="overflow:auto;font-size:14px;margin:0px 5px;background-color:#fff" id="ct" v-show="index==0">
     <div v-for="order of orders">
       <p style="padding-top:10px;">2016-12-12 05:12</p>
@@ -31,29 +38,45 @@
         <p><span>产品名称</span><span class="right">{{order.product.name}}</span></p>
         <p><span>实付金额</span><span class="right">（{{order.quantity}}*{{order.price}}）{{order.quantity*order.price}}元</span></p>
         <p><span>产品体验金</span><span class="right">{{order.quantity*order.price*order.experienceMoneyRate/100}}元</span></p>
-        <p><span>发品商</span><span class="right">{{order.product.supplier.name}}</span></p>
-        <a href="tel:{{order.product.supplier.tel}}">
-          <button class="weui_btn weui_btn_primary" style="font-size:14px;"> 电话 </button>
-        </a>
+        <p><span>店铺名称</span><span class="right">{{order.store.name}}</span></p>
+        <p><span>店铺地址</span><span class="right">{{order.store.address}}</span></p>
+        <flexbox>
+          <flexbox-item>
+            <a href="tel:{{order.store.cellphone}}">
+              <button class="weui_btn weui_btn_primary" style="font-size:14px;"> 电话 </button>
+            </a>
+          </flexbox-item>
+          <flexbox-item v-if="order.logisticsStatus==='UNFULFILLED'">
+            <button class="weui_btn weui_btn_primary" style="font-size:14px;" @click="fulfillOrder(order.id)"> 确认发货 </button>
+          </flexbox-item>
+        </flexbox>
       </div>
     </div>
   </div>
   <div style="overflow:auto;font-size:14px;margin:0px 5px;background-color:#fff" id="ct" v-show="index==1">
-    <div v-for="supplier of suppliers">
+    <div v-for="sum of sumbystores">
       <div class="order-item">
-        <p>{{supplier.name}}<span class="right"><a href="tel:{{supplier.tel}}">电话</a></span></p>
-        <p><span>{{supplier.address}}</span></p>
-        <p>{{supplier.productCount}}<span>款产品</span><span class="right">{{supplier.contact}}</span></p>
+        <p>{{sum.store.name}}<span class="right"><a href="tel:{{sum.store.cellphone}}">电话</a></span></p>
+        <p><span>累计订单{{sum.orderCount}}笔，累计金额{{sum.totalAmount}}</span></p>
+        <p><span>累计发放体验金{{sum.totalExperienceMoney}}元，当前剩余体验金{{sum.totalExperienceMoney}}</span></p>
+        <p>张三<span class="right">三分钟前</span></p>
       </div>
     </div>
   </div>
   <div style="overflow:auto;font-size:14px;margin:0px 5px;background-color:#fff" id="ct" v-show="index==2">
-    <div v-for="sum of sumbysuppliers">
-      <div class="order-item">
-        <p>{{sum.supplier.name}}</p>
-        <p><span>累计支付{{sum.totalAmount}}元</span><span class="right">累计支付订单{{sum.orderCount}}笔</span></p>
-        <p><span>累计体验金{{sum.totalExperienceMoney}}元</span><span class="right">当前剩余体验金{{sum.totalExperienceMoney}}元</span></p>
+    <div>
+      <div style="height:100px;margin-top:30px;">
+        <div style="float:left;height:100px">
+          <p>当前剩余金额</p>
+          <p><span style="font-size:22px;">123</span>元</p>
+        </div>
+        <div style="float:right;padding-top:10px;">
+          <x-button mini type="primary" style="width:90px;">提现</x-button>
+          <p>已提现1200元</p>
+        </div>
       </div>
+      <p style="margin-bottom:10px;">提现记录</p>
+      <p style="border-bottom:1px dotted #000;height:25px; " v-for="req of withdrawrequests"><span>体现{{req.amount}}元</span><span class="right">{{req.createdTime|moment}}</span></p>
     </div>
   </div>
 </template>
@@ -65,9 +88,13 @@ import {
   Panel,
   Tab,
   TabItem,
-  SwiperItem
+  SwiperItem,
+  Flexbox,
+  FlexboxItem,
+  XButton
 } from 'vux/src/components'
 import constants from '../constants'
+import moment from 'moment'
 import {
   putStore
 } from '../vuex/actions'
@@ -89,7 +116,10 @@ export default {
     Panel,
     Tab,
     TabItem,
-    SwiperItem
+    SwiperItem,
+    Flexbox,
+    FlexboxItem,
+    XButton
   },
   vuex: {
     actions: {
@@ -109,10 +139,10 @@ export default {
       demo03_list: demoList,
       index: 0,
       orders: null,
-      suppliers: null,
-      sumbysuppliers: null,
+      sumbystores: null,
+      withdrawrequests: null,
       summary: {
-        store: {
+        supplier: {
           name: null
         }
       }
@@ -127,31 +157,44 @@ export default {
         console.log(res)
       })
     },
-    loadSuppliers: function() {
+    fulfillOrder: function(id) {
       const self = this
-      this.$http.get(constants.serviceUrl + '/stores/suppliers').then(function(res) {
-        self.suppliers = res.data.data
-        console.log(self.suppliers)
+      this.$http.get(constants.serviceUrl + '/orders/' + id + '/fulfill').then(function(res) {
+        if (res.data.success) {
+          self.loadOrders()
+        }
+      }, function(res) {
+        console.log(res)
+      })
+    },
+    loadSummaryByStore: function() {
+      const self = this
+      this.$http.get(constants.serviceUrl + '/orders/sumbystore').then(function(res) {
+        self.sumbystores = res.data.data
+      }, function(res) {
+        console.log(res)
+      })
+    },
+    loadWithdrawRequests: function() {
+      const self = this
+      this.$http.get(constants.serviceUrl + '/withdrawrequests').then(function(res) {
+        self.withdrawrequests = res.data.data
       }, function(res) {
         console.log(res)
       })
     },
     loadSummary: function() {
       const self = this
-      this.$http.get(constants.serviceUrl + '/stores/summary').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/suppliers/summary').then(function(res) {
         self.summary = res.data.data
-        self.putStore(res.data.data.store)
       }, function(res) {
         console.log(res)
       })
-    },
-    loadSummaryBySupplier: function() {
-      const self = this
-      this.$http.get(constants.serviceUrl + '/orders/sumbysupplier').then(function(res) {
-        self.sumbysuppliers = res.data.data
-      }, function(res) {
-        console.log(res)
-      })
+    }
+  },
+  filters: {
+    moment: function(date) {
+      return moment(date).format('YYYY-MM-DD hh:mm:ss')
     }
   },
   watch: {
@@ -160,9 +203,9 @@ export default {
         if (val === 0) {
           this.loadOrders()
         } else if (val === 1) {
-          this.loadSuppliers()
+          this.loadSummaryByStore()
         } else if (val === 2) {
-          this.loadSummaryBySupplier()
+          this.loadWithdrawRequests()
         }
       }
     }
@@ -211,5 +254,14 @@ export default {
 
 .order-item span {
   color: gray;
+}
+
+.Absolute-Center {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 </style>

@@ -1,9 +1,6 @@
 <template>
   <swiper :list="imageList" auto style="width:98%;margin:0 auto;" height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
   <group>
-    <popup-picker title="品质精选，物超所值" :data="catalogs" :value.sync="catalog"></popup-picker>
-  </group>
-  <group>
     <div class="item" v-for="item in products" @click="gotoBuy(item.id)">
       <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
       <div>

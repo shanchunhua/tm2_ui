@@ -1,32 +1,41 @@
 <template>
   <div>
-  <x-header>我是发品商</x-header>
-      <div class="vux-demo">
-    <img class="logo" src="../assets/vux_logo.png">
-    <h1>xxxx</h1>
-  </div>
+    <x-header>我是店铺老板</x-header>
+    <div class="vux-demo">
+      <img class="logo" src="../assets/vux_logo.png">
+      <h4>您已成功注册为店铺</h4>
+    </div>
     <group>
-      <cell title="发品商名称" :value="suppiler.name"></cell>
+      <cell title="店铺名称" :value="store.name"></cell>
     </group>
     <group>
-      <cell title="厂家地址" :value="suppiler.region"></cell>
-       <cell  :value="suppiler.address" ></cell>
+      <cell title="店铺地址" :value="store.region"></cell>
+      <cell :value="store.address"></cell>
     </group>
-     <group>
-      <cell title="前台电话"  :value="suppiler.tel" ></cell>
-    </group
-     <group>
-      <cell title="联系人" :value="suppiler.contact"></cell>
-    </group
-     <group>
-      <cell title="手机" :value="suppiler.cellphone"></cell>
+    <group>
+      <cell title="联系人" :value="store.contact"></cell>
+    </group <group>
+    <cell title="联系电话" :value="store.cellphone"></cell>
     </group>
+    <a v-link="{path:'/storeindex'}">
+      <button class="weui_btn weui_btn_primary" style="font-size:14px;"> 进入店铺 </button>
+    </a>
   </div>
 </template>
-
 <script>
-import { Group, Address, AddressChinaData, XButton, Cell, XInput } from 'vux/src/components'
+import {
+  Group,
+  Address,
+  AddressChinaData,
+  XButton,
+  Cell,
+  XInput
+} from 'vux/src/components'
 import XHeader from 'vux/src/components/x-header'
+import value2name from '../filters/value2name'
+import {
+  getStore
+} from '../vuex/getters'
 export default {
   components: {
     Group,
@@ -36,34 +45,20 @@ export default {
     XInput,
     XHeader
   },
-  data () {
+  vuex: {
+    getters: {
+      store: getStore
+    }
+  },
+  data() {
     return {
-      title: '默认为空',
-      value: [],
-      title2: '手动设定',
-      value2: ['广东省', '深圳市', '南山区'],
-      value3: ['海南省', '儋州市', '--'],
       addressData: AddressChinaData,
-      value4: [],
-      value5: ['广东省', '深圳 市', '南山区'],
-      suppiler: {
-        name: 'abc',
-        region: [],
-        address: null,
-        tel: null,
-        contact: null,
-        cellphone: null
-      }
+      regionName: value2name(this.store.region.split(','), AddressChinaData)
     }
   },
   methods: {
-    changeData () {
-      console.log(this.suppiler)
-      this.$http.post('/', this.suppiler).then(function (res) {
-        console.log(res)
-      }, function (res) {
-        console.log(res)
-      })
+    goToMain() {
+
     }
   }
 }

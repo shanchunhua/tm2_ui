@@ -1,45 +1,31 @@
 <template>
-  <swiper :list="imageList" auto style="width:98%;margin:0 auto;" height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
-  <group>
-    <popup-picker title="品质精选，物超所值" :data="catalogs" :value.sync="catalog"></popup-picker>
-  </group>
-  <group>
-    <div class="item" v-for="item in products" @click="gotoBuy(item.id)">
-      <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
-      <div>
-        <h4 class="weui_media_title">{{item.name}}</h4>
-        <p>类别<span class="right">{{item.supplier.name}}</span></p>
-        <p>￥{{item.price}}元<span style="padding-left:20px;">{{item.catalog.experienceMoneyRate}}%体验金</span><span class="right">已销售100件</span></p>
-      </div>
+  <x-header>{{catalog.name}}</x-header>
+  <div v-for="item in serviceList" @click="selectService(item)">
+    <div class="weui_panel">
+      <div class="weui_panel_hd">{{item.name}}<span class="right" v-link="{ path: '/serviceform', query: { id: item.id }}">编辑</span></div>
+      <p>{{item.level|level}}级￥{{item.price}}元</p>
     </div>
+  </div>
+  </div>
   </group>
 </template>
 <script type="text/javascript">
 import {
-  Swiper,
   Group,
   Cell,
   Panel,
   SwiperItem,
   PopupPicker
 } from 'vux/src/components'
+import XHeader from 'vux/src/components/x-header'
 import constants from '../constants'
 import {
   putStore
 } from '../vuex/actions'
-const imgList = [
-  'http://placeholder.qiniudn.com/800x300/FF3B3B/ffffff',
-  'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
-  'http://placeholder.qiniudn.com/800x300/8AEEB1/ffffff'
-]
 
-const imageList = imgList.map((one, index) => ({
-  url: 'javascript:',
-  img: one
-}))
 export default {
   components: {
-    Swiper,
+    XHeader,
     Group,
     Cell,
     Panel,
@@ -52,43 +38,33 @@ export default {
     }
   },
   ready: function() {
-    this.loadProducts()
-    this.showCatalogs()
+    if (this.$route.query.id) {
+      this.loadServices()
+    }
     console.log(this.catalogs)
     this.loadUser()
   },
   data() {
     return {
-      type: '1',
-      imageList: imageList,
-      catalog: [],
+      serviceList: [],
       catalogs: null,
       products: null
     }
   },
   methods: {
-    showCatalogs() {
-      if (this.catalogs == null) {
-        var self = this
-        this.$http.get(constants.serviceUrl + '/catalogs').then(function(res) {
-          self.catalogs = [res.data.data.map(function(o) {
-            return {
-              name: o.name,
-              value: o.name
-            }
-          })]
-          console.log(self.catalogs)
-        }, function(res) {
-          console.log(res)
-        })
-      }
+    selectService(item) {
+      constants.putObject('service', item)
+      this.$router.go({
+        path: 'pickstaff',
+        query: {
+          id: item.id
+        }
+      })
     },
-    loadProducts: function() {
+    loadServices() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/products').then(function(res) {
-        console.log(res)
-        self.products = res.data.data
-        console.log(self.products)
+      this.$http.get(constants.serviceUrl + '/services/catalog/' + this.$route.query.id).then(function(res) {
+        self.serviceList = res.data.data
       }, function(res) {
         console.log(res)
       })
@@ -152,33 +128,5 @@ export default {
 }
 </script>
 <style>
-.item {
-  display: flex;
-  padding: 10px 5px;
-  border-top: 1px solid #E5E5E5;
-}
-
-.item img {
-  width: 60px;
-  height: 60px;
-}
-
-.item div {
-  margin-left: 10px;
-  flex: 1;
-}
-
-.right {
-  float: right;
-}
-
-.item p {
-  font-size: 13px;
-  color: #999999;
-}
-
-.item h4 {
-  font-weight: 400;
-  font-size: 17px;
-}
+@import '../assets/css/weui.css';
 </style>

@@ -2,7 +2,7 @@
   <div>
     <x-header>我是发品商</x-header>
     <group>
-      <x-input title="发品商名称" :value.sync="suppiler.name" placeholder="请输入发品商名称" </x-input>
+      <x-input title="发品商名称" :value.sync="suppiler.name" placeholder="请输入发品商名称"> </x-input>
     </group>
     <group>
       <address title="厂家地址" :value.sync="regionArray" raw-value :list="addressData"></address>

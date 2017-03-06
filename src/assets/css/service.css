@@ -1,0 +1,65 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#f8f8f8;}
+/*banner*/
+.m-banner{ width:100%; height:150px; margin:0 auto; position:relative;}
+.m-banner .shade{ width:100%; height:150px; position:absolute; z-index:500; background:#000; opacity: 0.5;}
+.m-banner .text{width:90%; padding-top:40px; padding-left:10%; height:120px; position:absolute; z-index:1000;}
+.m-banner .text .name{ font-size:18px; height:30px; line-height:40px; color:#fff; font-weight:bold;}
+.m-banner .text ul li{ line-height:40px; font-size:12px; color:#fff; float:left;}
+
+.m-banner .focus{ width:100%; height:150px;  margin:0 auto; position:relative; overflow:hidden;   }
+.m-banner .focus .hd{ width:100%; height:5px;  position:absolute; z-index:1; bottom:0; text-align:center;  }
+.m-banner .focus .hd ul{ overflow:hidden; display:-moz-box; display:-webkit-box; display:box; height:5px; background-color:rgba(51,51,51,0.5);   }
+.m-banner .focus .hd ul li{ -moz-box-flex:1; -webkit-box-flex:1; box-flex:1; }
+.m-banner .focus .hd ul .on{ background:#de0000;  }
+.m-banner .focus .bd{ position:relative; z-index:0; }
+.m-banner .focus .bd li img{ width:100%;  height:150px; }
+.m-banner .focus .bd li a{ -webkit-tap-highlight-color:rgba(0, 0, 0, 0); /* 取消链接高亮 */ }
+
+
+/*统计*/
+.m-count{ width:100%; height:46px; padding:5px 0px; background:#ffffff;  border-bottom:1px solid #dfdfdf;}
+.m-count ul li{ float:left; width:33.3%; text-align:center; }
+.m-count ul li { font-size:12px; color:#484848; line-height:20px;}
+.m-count ul li span{ font-size:16px; color:#de0000; line-height:26px;}
+
+/*今日特价*/
+.m-product-list{ padding-top:10px;}
+.m-product-list .title{ height:30px; line-height:30px; padding:0px 2%; background:#fff;}
+.m-product-list .list-item{ padding:10px 2%; margin-bottom:5px; background:#ffffff; border-top:1px solid #dadada; border-bottom:1px solid #dadada;}
+
+.m-product-list .list-item .l{ width:82px; height:82px; margin-right:5px;}
+.m-product-list .list-item .c{ wi height:82px;}
+.m-product-list .list-item .c .p1{ line-height:32px;}
+.m-product-list .list-item .c .p2{ line-height:25px;}
+.m-product-list .list-item .c .level{ line-height:25px;}
+.m-product-list .list-item .c .n_price{ font-size:17px; color:#ff0000; padding-right:10px;}
+.m-product-list .list-item .c .y_price{ font-size:12px; color:#8a8a8a;}
+.m-product-list .list-item .c .level ul li{ float:left; color:#8a8a8a; font-size:12px; margin-right:8px;}
+
+.m-product-list .list-item .r{ width:55px;}
+.m-product-list .list-item .r .p1{padding:7px 0px; }
+.m-product-list .list-item .r .edit{ height:20px; display:block;text-align:center; border-radius:4px; width:50px; height:20px; line-height:20px; background:#1db700; font-size:12px; color:#fff;}
+.m-product-list .list-item .r .p2{ font-size:12px; line-height:25px;}
+.m-product-list .list-item .r .p3{ font-size:12px; line-height:25px; color:#8a8a8a;}
+
+/*本店精选*/
+.m-best{ width:; padding-top:20px;}
+.m-best .title-box{ width:202px; height:20px; margin:0 auto; position:relative; border-top:1px solid #dfdfdf; font-size:#2a2a2a;}
+.m-best .title-box .title{ width:80px; height:25px; line-height:25px; text-align:center; position:absolute; left:61px; top:-15px; background:#f8f8f8; font-size:12px;}
+.m-best .nav{ background:#fff; border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; margin-bottom:10px;}
+.m-best .nav li{ float:left; width:33.3%; position:relative; padding-top:25px; line-height:20px; padding-bottom:10px; font-size:12px; color:#484848; text-align:center; border-bottom:1px solid #fff;}
+.m-best .nav li .line{ position:absolute; height:30px; width:1px; top:12px; right:-1px; background:#dfdfdf;}
+.m-best .nav .on{ border-bottom:1px solid #db0000;}
+.m-best .nav .li1{ background:url(../images/s1.gif) center 10px no-repeat;}
+.m-best .nav .li2{ background:url(../images/s2.gif) center 10px no-repeat;}
+.m-best .nav .li3{ background:url(../images/s3.gif) center 10px no-repeat;}
+.m-best .box{ display:none;}
+.m-best .box ul li{ float:left; width:50%; margin-bottom:10px;}
+.m-best .box ul li .thumb-box{ width:143px; height:67px; position:relative; margin:0 auto; }
+.m-best .box ul li .thumb-box .text{width:143px; height:47px; padding:10px 0px; line-height:20px; text-align:center; position:absolute; z-index:1000; font-size:12px; color:#fff;}
+.m-best .box ul li .thumb-box .text span{ font-size:16px; font-weight:bold; color:#fff; line-height:27px;}
+
+/*新建产品*/
+.m-new-product{ display:block; width:100%; height:30px; color:#fff; position:fixed; bottom:0px; z-index:2000;  line-height:30px; text-align:center; background:#1db700;}

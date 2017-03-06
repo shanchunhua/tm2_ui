@@ -1,15 +1,17 @@
 <template>
-  <swiper :list="imageList" auto style="width:98%;margin:0 auto;" height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
   <group>
-    <popup-picker title="品质精选，物超所值" :data="catalogs" :value.sync="catalog"></popup-picker>
-  </group>
-  <group>
-    <div class="item" v-for="item in products" @click="gotoBuy(item.id)">
+    <div class="item" v-for="item in cards">
       <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
       <div>
         <h4 class="weui_media_title">{{item.name}}</h4>
-        <p>类别<span class="right">{{item.supplier.name}}</span></p>
-        <p>￥{{item.price}}元<span style="padding-left:20px;">{{item.catalog.experienceMoneyRate}}%体验金</span><span class="right">已销售100件</span></p>
+        <p>有效期<span class="right">{{item.name}}</span></p>
+        <p>￥{{item.price}}元<span style="padding-left:20px;">{{item}}%体验金</span><span class="right">已销售100件</span></p>
+        <p>最高折扣<span class="right" @click="toggleDetail(item)">查看全部∨{{item.show}}</span></p>
+        <div class="detail" v-show="item.show">
+          <p v-for="subItem in item.items">
+            {{subItem.catalog.name}}<span class="right">{{subItem.discount}}%</span>
+          </p>
+        </div>
       </div>
     </div>
   </group>
@@ -27,16 +29,6 @@ import constants from '../constants'
 import {
   putStore
 } from '../vuex/actions'
-const imgList = [
-  'http://placeholder.qiniudn.com/800x300/FF3B3B/ffffff',
-  'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
-  'http://placeholder.qiniudn.com/800x300/8AEEB1/ffffff'
-]
-
-const imageList = imgList.map((one, index) => ({
-  url: 'javascript:',
-  img: one
-}))
 export default {
   components: {
     Swiper,
@@ -52,43 +44,37 @@ export default {
     }
   },
   ready: function() {
-    this.loadProducts()
-    this.showCatalogs()
-    console.log(this.catalogs)
-    this.loadUser()
+    this.loadCards()
   },
   data() {
     return {
       type: '1',
-      imageList: imageList,
       catalog: [],
       catalogs: null,
-      products: null
+      cards: [{
+        showDetail: false,
+        items: [{
+          catalog: {
+            name: null
+          }
+        }]
+      }]
     }
   },
   methods: {
-    showCatalogs() {
-      if (this.catalogs == null) {
-        var self = this
-        this.$http.get(constants.serviceUrl + '/catalogs').then(function(res) {
-          self.catalogs = [res.data.data.map(function(o) {
-            return {
-              name: o.name,
-              value: o.name
-            }
-          })]
-          console.log(self.catalogs)
-        }, function(res) {
-          console.log(res)
-        })
-      }
+    toggleDetail(item) {
+      item.name = 'xxx'
+      console.log(item.show)
+      console.log(item)
     },
-    loadProducts: function() {
+    loadCards: function() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/products').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/card/discountcard').then(function(res) {
         console.log(res)
-        self.products = res.data.data
-        console.log(self.products)
+        self.cards = res.data.data
+        self.cards.forEach(function(item) {
+          self.$set(item, 'show', false)
+        })
       }, function(res) {
         console.log(res)
       })

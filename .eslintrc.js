@@ -13,6 +13,10 @@ module.exports = {
   'rules': {
     // allow paren-less arrow functions
     'arrow-parens': 0,
+   "space-before-function-paren": ["error", {
+        "anonymous": "ignore",
+        "named": "ignore"
+    }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }

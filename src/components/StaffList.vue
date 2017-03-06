@@ -1,25 +1,25 @@
 <template>
-  <swiper :list="imageList" auto style="width:98%;margin:0 auto;" height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
   <group>
-    <popup-picker title="品质精选，物超所值" :data="catalogs" :value.sync="catalog"></popup-picker>
+    <x-button type="primary" @click="changeData" v-link="{path:'/staffform'}">+新增</x-button>
   </group>
   <group>
-    <div class="item" v-for="item in products" @click="gotoBuy(item.id)">
+    <div class="item" v-for="item in staffs">
       <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
       <div>
-        <h4 class="weui_media_title">{{item.name}}</h4>
-        <p>类别<span class="right">{{item.supplier.name}}</span></p>
-        <p>￥{{item.price}}元<span style="padding-left:20px;">{{item.catalog.experienceMoneyRate}}%体验金</span><span class="right">已销售100件</span></p>
+        <h4 class="weui_media_title">{{item.name}}<span>{{item.level}}</span><span class="right" @click="edit(item.id)">编辑</span></h4>
+        <p>{{item.description}}</p>
       </div>
     </div>
   </group>
 </template>
 <script type="text/javascript">
 import {
-  Swiper,
+  XButton,
   Group,
   Cell,
   Panel,
+  Checker,
+  CheckerItem,
   SwiperItem,
   PopupPicker
 } from 'vux/src/components'
@@ -39,9 +39,11 @@ const imageList = imgList.map((one, index) => ({
 }))
 export default {
   components: {
-    Swiper,
+    XButton,
     Group,
     Cell,
+    Checker,
+    CheckerItem,
     Panel,
     SwiperItem,
     PopupPicker
@@ -52,7 +54,7 @@ export default {
     }
   },
   ready: function() {
-    this.loadProducts()
+    this.loadStaffs()
     this.showCatalogs()
     console.log(this.catalogs)
     this.loadUser()
@@ -61,9 +63,9 @@ export default {
     return {
       type: '1',
       imageList: imageList,
-      catalog: [],
+      workingTime: [],
       catalogs: null,
-      products: null
+      staffs: null
     }
   },
   methods: {
@@ -83,12 +85,11 @@ export default {
         })
       }
     },
-    loadProducts: function() {
+    loadStaffs: function() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/products').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/staffs').then(function(res) {
         console.log(res)
-        self.products = res.data.data
-        console.log(self.products)
+        self.staffs = res.data.data
       }, function(res) {
         console.log(res)
       })
@@ -133,10 +134,10 @@ export default {
         console.log(res)
       })
     },
-    gotoBuy: function(id) {
+    edit: function(id) {
       console.log(id)
       this.$router.go({
-        path: 'orderform',
+        path: 'staffform',
         query: {
           id: id
         }
@@ -180,5 +181,21 @@ export default {
 .item h4 {
   font-weight: 400;
   font-size: 17px;
+}
+
+.demo5-item {
+  width: 14%;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-right: 6px;
+}
+
+.demo5-item-selected {
+  background-color: #fff;
+  border-color: #ff4a00;
 }
 </style>
