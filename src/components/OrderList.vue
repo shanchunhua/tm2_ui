@@ -14,7 +14,7 @@
     </form>
     <a href="javascript:" class="weui_search_cancel" id="search_cancel" ng-click="ctrl.cancel();">取消</a>
   </div>
-  <div class="weui_cells_title" ng-repeat-start="order in ctrl.orders">{{order.createdDate|date:'yyyy-MM-dd'}}</div>
+  <div class="weui_cells_title" v-for="order in list">{{order.createdDate|date:'yyyy-MM-dd'}}
   <div class="weui_cells" ng-repeat-end>
     <div class="weui_cell">
       <div class="weui_cell_bd" style="flex: 1;">
@@ -22,16 +22,15 @@
           <span style="display: inline-block;">订单编号： {{order.orderNo}}</span><span style="display: inline-block; float: right;" class="gray">{{order.paymentStatus|paymentStatus}}</span>
         </p>
         <p class="gray">
-          <span style="display: inline-block;">{{order.product.name}}({{order.product.price}}元*{{order.quantity}})</span><span style="display: inline-block; float: right;">{{order.total}}元</span>
+          <span style="display: inline-block;">{{order.productName}}({{order.price}}元*{{order.quantity}})</span><span style="display: inline-block; float: right;">{{order.total}}元</span>
         </p>
         <p class="gray">
-          <span style="display: inline-block;">{{order.contact}}({{order.tel}})</span>
-          <span style="display: inline-block; float: right;">{{order.consumeStatus|consumeStatus}}</span>
+          <span style="display: inline-block;">{{order.customerName}}({{order.cellphone}})</span>
         </p>
         <input class="weui_btn weui_btn_primary js_grid" type="submit" ng-show="" ng-click="app.pay(order)" value="继续支付"></input>
-        <input class="weui_btn weui_btn_primary js_grid" type="submit" ng-show="" ng-click="ctrl.confirm(order)" value="确认到店消费"></input>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script>
@@ -50,7 +49,7 @@ export default {
     },
     load() {
       const self = this
-      this.$http.get(constants.serviceUrl + '/withdrawrequests').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/storeorders').then(function(res) {
         self.list = res.data.data.content
       }, function(res) {
         console.log(res)

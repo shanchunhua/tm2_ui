@@ -23,6 +23,10 @@
       </div>
       <div class="bd">
         <div v-show="menu===1">
+          <group>
+            <cell title="我的体验金" value="还剩1233元"></cell>
+            <cell title="我的卡包" is-link value="3"></cell>
+          </group>
           <order-list></order-list>
         </div>
         <div v-show="menu===3">
@@ -36,12 +40,18 @@
   </div>
 </template>
 <script>
+import {
+  Group,
+  Cell
+} from 'vux/src/components'
 import OrderList from './OrderList'
 import WithdrawRecord from './WithdrawRecord'
 import UserList from './UserList'
 import constants from '../constants'
 export default {
   components: {
+    Group,
+    Cell,
     OrderList,
     WithdrawRecord,
     UserList
@@ -80,7 +90,7 @@ export default {
   },
   data() {
     return {
-      menu: 3
+      menu: 1
     }
   }
 }

@@ -33,6 +33,7 @@ import StoreProductForm from './components/StoreProductForm'
 import DiscountCardForm from './components/DiscountCardForm'
 import TimesCardForm from './components/TimesCardForm'
 import ServiceOrderForm from './components/ServiceOrderForm'
+import CustomerCardList from './components/CustomerCardList'
 
 import VueRouter from 'vue-router'
 import vueResource from 'vue-resource'
@@ -53,6 +54,15 @@ Vue.filter('level', function (v) {
       return '四星'
     case 5:
       return '五星'
+  }
+})
+Vue.filter('paymentStatus', function (v) {
+  switch (v) {
+    case 'NOT_PAID':
+      return '未支付'
+    case 'PAID':
+      return '已支付'
+
   }
 })
 const router = new VueRouter()
@@ -152,6 +162,9 @@ router.map({
   },
   '/timescardlist': {
     component: TimesCardList
+  },
+  '/customercardlist': {
+    component: CustomerCardList
   }
 })
 

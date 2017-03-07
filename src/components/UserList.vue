@@ -1,7 +1,6 @@
 <template>
-aaa
   <div class="weui_cells" infinite-scroll="ownerCtrl.loadMoreRelation()">
-    <div class="weui_cell" ng-repeat="o in ownerCtrl.relationService.relations">
+    <div class="weui_cell" v-for="o in list">
       <div style="width: 50px; height: 50px; margin-right: 10px;">
         <img alt="" ng-src="{{o.user.headimgurl}}" style="width: 50px; height: 50px;">
       </div>
@@ -33,17 +32,8 @@ export default {
     },
     load() {
       const self = this
-      this.$http.get(constants.serviceUrl + '/withdrawrequests').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/users/relations').then(function(res) {
         self.list = res.data.data.content
-      }, function(res) {
-        console.log(res)
-      })
-    },
-    withdraw() {
-      var self = this
-      this.$http.post(constants.serviceUrl + '/withdrawrequests', this.withdrawRequest).then(function(res) {
-        self.hideDialog()
-        self.load()
       }, function(res) {
         console.log(res)
       })
