@@ -21,21 +21,29 @@
           <p class="weui_grid_label">本店收益</p>
         </a>
       </div>
-      <div class="bd">
-        <div v-show="menu===1">
-          <order-list></order-list>
-        </div>
-        <div v-show="menu===3">
-          <store-money></store-money>
-        </div>
-        <div v-show="menu===2">
-          <user-list></user-list>
-        </div>
+    </div>
+    <div class="bd">
+      <div v-show="menu===1">
+        <order-list></order-list>
+      </div>
+      <div v-show="menu===3">
+        <store-money></store-money>
+      </div>
+      <div v-show="menu===2">
+        <group>
+          <cell title="本店会员" is-link value="300人" v-link="{path:'/storememberlist'}"></cell>
+          <cell title="本店散客" is-link value="3" v-link="{path:'/storecustomerlist'}"></cell>
+          <cell title="仅关注用户" is-link value="3" v-link="{path:'/storesubscriberlist'}"></cell>
+        </group>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {
+  Group,
+  Cell
+} from 'vux/src/components'
 import OrderList from './OrderList'
 import StoreMoney from './StoreMoney'
 import UserList from './UserList'
@@ -44,7 +52,9 @@ export default {
   components: {
     OrderList,
     StoreMoney,
-    UserList
+    UserList,
+    Group,
+    Cell
   },
 
   ready: function() {

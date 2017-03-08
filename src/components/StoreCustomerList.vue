@@ -1,4 +1,5 @@
 <template>
+   <x-header>本店散客</x-header>
   <div class="weui_cells" infinite-scroll="ownerCtrl.loadMoreRelation()">
     <div class="weui_cell" v-for="o in list">
       <div style="width: 50px; height: 50px; margin-right: 10px;">
@@ -17,9 +18,14 @@
   </div>
 </template>
 <script>
+import {
+  XHeader
+} from 'vux/src/components'
 import constants from '../constants'
 export default {
-
+  components: {
+    XHeader
+  },
   ready: function() {
     this.load()
   },

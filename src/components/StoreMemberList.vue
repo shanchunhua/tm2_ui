@@ -1,4 +1,21 @@
 <template>
+  <x-header>我的会员</x-header>
+  <div class="bd">
+    <div class="weui_grids">
+      <a href="javascript:;" class="weui_grid js_grid" ng-class="menu==1?'selected':''" @click="showOrderList">
+        <h3 style="text-align: center;">{{ctrl.orders.length}}笔</h3>
+        <p class="weui_grid_label">会员数量</p>
+      </a>
+      <a href="javascript:;" class="weui_grid js_grid" ng-class="menu==2?'selected':''" @click="showRelation">
+        <h3 style="text-align: center;">{{ctrl.summary.totalRelations}}人</h3>
+        <p class="weui_grid_label">充值总额</p>
+      </a>
+      <a href="javascript:;" class="weui_grid js_grid" ng-class="menu==3?'selected':''" @click="showWithdraw">
+        <h3 style="text-align: center;">{{app.curUser.commission.total}}元</h3>
+        <p class="weui_grid_label">剩余总额</p>
+      </a>
+    </div>
+  </div>
   <div class="weui_cells" infinite-scroll="ownerCtrl.loadMoreRelation()">
     <div class="weui_cell" v-for="o in list">
       <div style="width: 50px; height: 50px; margin-right: 10px;">
@@ -17,9 +34,14 @@
   </div>
 </template>
 <script>
+import {
+  XHeader
+} from 'vux/src/components'
 import constants from '../constants'
 export default {
-
+  components: {
+    XHeader
+  },
   ready: function() {
     this.load()
   },
