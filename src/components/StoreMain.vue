@@ -33,7 +33,6 @@
       <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
       <div>
         <h4 class="weui_media_title">{{item.name}}</h4>
-        <p>类别<span class="right">{{item.supplier.name}}</span></p>
         <p>￥{{item.price}}元<span style="padding-left:20px;">{{item.catalog.experienceMoneyRate}}%体验金</span><span class="right">已销售100件</span></p>
       </div>
     </div>
@@ -56,7 +55,6 @@
         <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
         <div>
           <h4 class="weui_media_title">{{item.name}}</h4>
-          <p>类别<span class="right">{{item.supplier.name}}</span></p>
           <p>￥{{item.price}}元<span style="padding-left:20px;">{{item.catalog.experienceMoneyRate}}%体验金</span><span class="right">已销售100件</span></p>
         </div>
       </div>
@@ -88,11 +86,11 @@
   </group>
   <div>
     <tabbar>
-      <tabbar-item selected>
+      <tabbar-item selected v-link="{path:'storemain'}">
         <img slot="icon" src="../assets/vux_logo.png">
         <span slot="label">服务指南</span>
       </tabbar-item>
-      <tabbar-item>
+      <tabbar-item v-link="{path:'valueselection'}">
         <img slot="icon" src="../assets/vux_logo.png">
         <span slot="label">超值精选</span>
       </tabbar-item>
@@ -155,7 +153,7 @@ export default {
   methods: {
     loadProducts: function() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/products').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/storeproducts').then(function(res) {
         console.log(res)
         self.products = res.data.data
         console.log(self.products)

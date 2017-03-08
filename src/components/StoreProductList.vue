@@ -1,5 +1,4 @@
 <template>
-  <swiper :list="imageList" auto style="width:98%;margin:0 auto;" height="180px" dots-class="custom-bottom" dots-position="center"></swiper>
   <group>
     <div class="item" v-for="item in products" @click="gotoBuy(item)">
       <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
@@ -10,26 +9,6 @@
       </div>
     </div>
   </group>
-  <div>
-    <tabbar>
-      <tabbar-item v-link="{path:'storemain'}">
-        <img slot="icon" src="../assets/vux_logo.png">
-        <span slot="label">服务指南</span>
-      </tabbar-item>
-      <tabbar-item selected v-link="{path:'valueselection'}">
-        <img slot="icon" src="../assets/vux_logo.png">
-        <span slot="label">超值精选</span>
-      </tabbar-item>
-      <tabbar-item>
-        <img slot="icon" src="../assets/vux_logo.png">
-        <span slot="label">我的业绩</span>
-      </tabbar-item>
-      <tabbar-item>
-        <img slot="icon" src="../assets/vux_logo.png">
-        <span slot="label">二维码</span>
-      </tabbar-item>
-    </tabbar>
-  </div>
 </template>
 <script type="text/javascript">
 import {
@@ -38,26 +17,12 @@ import {
   Cell,
   Panel,
   SwiperItem,
-  Tab,
-  TabItem,
-  Tabbar,
-  TabbarItem,
   PopupPicker
 } from 'vux/src/components'
 import constants from '../constants'
 import {
   putStore
 } from '../vuex/actions'
-const imgList = [
-  'http://placeholder.qiniudn.com/800x300/FF3B3B/ffffff',
-  'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
-  'http://placeholder.qiniudn.com/800x300/8AEEB1/ffffff'
-]
-
-const imageList = imgList.map((one, index) => ({
-  url: 'javascript:',
-  img: one
-}))
 export default {
   components: {
     Swiper,
@@ -65,10 +30,6 @@ export default {
     Cell,
     Panel,
     SwiperItem,
-    Tab,
-    TabItem,
-    Tabbar,
-    TabbarItem,
     PopupPicker
   },
   vuex: {
@@ -82,7 +43,6 @@ export default {
   data() {
     return {
       type: '1',
-      imageList: imageList,
       catalog: [],
       catalogs: null,
       products: null
@@ -91,21 +51,21 @@ export default {
   methods: {
     loadProducts: function() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/platformproducts').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/storeproducts').then(function(res) {
         console.log(res)
-        self.products = res.data.data.content
+        self.products = res.data.data
         console.log(self.products)
       }, function(res) {
         console.log(res)
       })
     },
     gotoBuy: function(item) {
-      constants.putObject('platformproduct', item)
+      constants.putObject('storeproduct', item)
       this.$router.go({
         path: 'serviceorderform',
         query: {
           id: item.id,
-          ptype: 4
+          ptype: 2
         }
       })
     }

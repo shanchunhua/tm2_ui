@@ -25,7 +25,7 @@
         <div v-show="menu===1">
           <group>
             <cell title="我的体验金" value="还剩1233元"></cell>
-            <cell title="我的卡包" is-link value="3"></cell>
+            <cell title="我的卡包" is-link value="3" v-link="{path:'/customercardlist'}"></cell>
           </group>
           <order-list></order-list>
         </div>

@@ -34,6 +34,8 @@ import DiscountCardForm from './components/DiscountCardForm'
 import TimesCardForm from './components/TimesCardForm'
 import ServiceOrderForm from './components/ServiceOrderForm'
 import CustomerCardList from './components/CustomerCardList'
+import StoreProductList from './components/StoreProductList'
+import CardUsageRecord from './components/CardUsageRecord'
 
 import VueRouter from 'vue-router'
 import vueResource from 'vue-resource'
@@ -165,6 +167,12 @@ router.map({
   },
   '/customercardlist': {
     component: CustomerCardList
+  },
+  '/storeproductlist': {
+    component: StoreProductList
+  },
+  '/cardusagerecord': {
+    component: CardUsageRecord
   }
 })
 

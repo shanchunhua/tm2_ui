@@ -1,27 +1,11 @@
 <template>
   <group>
-    <div class="item" v-for="item in timescards">
+    <div class="item" v-for="item in list" @click="gotoBuy(item)">
       <div>
         <h4 class="weui_media_title">{{item.timesCard.name}}</h4>
         <p>有效期<span class="right">{{item.name}}</span></p>
         <p>￥{{item.price}}元<span style="padding-left:20px;"></span><span class="right"></span></p>
         <p>￥{{item.price}}元<span style="padding-left:20px;"></span><span class="right"></span></p>
-      </div>
-      <div>
-        <button @click="viewUsageRecord(item,'TIMES_CARD')">划卡记录</button>
-        <button>微信充值</button>
-      </div>
-    </div>
-    <div class="item" v-for="item in discountcards">
-      <div>
-        <h4 class="weui_media_title">{{item.card.name}}</h4>
-        <p>有效期<span class="right">{{item.name}}</span></p>
-        <p>￥{{item.price}}元<span style="padding-left:20px;"></span><span class="right"></span></p>
-        <p>￥{{item.price}}元<span style="padding-left:20px;"></span><span class="right"></span></p>
-      </div>
-      <div>
-        <button @click="viewUsageRecord(item,'CATALOG_DISCOUNT_CARD')">划卡记录</button>
-        <button>微信充值</button>
       </div>
     </div>
   </group>
@@ -54,37 +38,21 @@ export default {
     }
   },
   ready: function() {
-    this.loadCards()
+    this.load()
   },
   data() {
     return {
-      timescards: null,
+      list: null,
       discountcards: null
     }
   },
   methods: {
-    viewUsageRecord(item, type) {
-      this.$router.go({
-        path: 'cardusagerecord',
-        query: {
-          id: item.id,
-          ctype: type
-        }
-      })
-    },
-    loadCards: function() {
+    load: function() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/customer/timescard').then(function(res) {
+      this.$http.get(constants.serviceUrl + '/customer/cardrecord/' + this.$route.query.ctype + '/' + this.$route.query.id).then(function(res) {
         console.log(res)
-        self.timescards = res.data.data
-        console.log(self.timescards)
-      }, function(res) {
-        console.log(res)
-      })
-      this.$http.get(constants.serviceUrl + '/customer/discountcard').then(function(res) {
-        console.log(res)
-        self.discountcards = res.data.data
-        console.log(self.discountcards)
+        self.list = res.data.data
+        console.log(self.list)
       }, function(res) {
         console.log(res)
       })

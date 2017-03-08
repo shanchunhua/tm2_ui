@@ -31,7 +31,7 @@
         </label>
       </div>
     </group>
-    <div class="weui_cells weui_cells_checkbox">
+    <div class="weui_cells weui_cells_checkbox" v-show="order.ptype!=4">
       <label class="weui_cell weui_check_label">
         <div class="weui_cell_hd">
           <input type="checkbox" name="checkbox1" class="weui_check" v-model="useExperienceMoney">
@@ -46,7 +46,7 @@
       <cell title="微信支付" :value.sync="wechatPay"></cell>
     </group>
     <group>
-      <div class="item" v-show="order.ptype==='1'">
+      <div class="item" v-if="order.ptype==='1'">
         <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
         <div>
           <h4 class="weui_media_title">{{order.staff.name}}<span>{{order.staff.level}}</span></h4>
@@ -179,6 +179,10 @@ export default {
           this.order.discountCard = constants.getObject('discountcard')
           this.product = constants.getObject('discountcard')
         }
+      }
+      if (this.order.ptype === '4') {
+        this.product = constants.getObject('platformproduct')
+        this.order.platformProduct = constants.getObject('platformproduct')
       }
       this.order.productName = this.product.name
       this.order.price = this.product.price
