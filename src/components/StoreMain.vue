@@ -85,7 +85,7 @@
     </div>
   </group>
   <div>
-    <tabbar>
+    <tabbar  style="position:fixed;bottom:0;">
       <tabbar-item selected v-link="{path:'storemain'}">
         <img slot="icon" src="../assets/vux_logo.png">
         <span slot="label">服务指南</span>

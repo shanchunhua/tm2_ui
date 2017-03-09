@@ -2,22 +2,22 @@
   <div class="page">
     <div class="hd">
       <div class="page_title">
-        <img alt="" class="avatar" ng-src="{{::app.curUser.headimgurl}}">
+        <img alt="" class="avatar" src="{{user.headimgurl}}">
       </div>
-      <p class="page_desc">{{::app.curUser.nickname}}</p>
+      <p class="page_desc">{{user.nickname}}</p>
     </div>
     <div class="bd">
       <div class="weui_grids">
-        <a href="javascript:;" class="weui_grid js_grid" ng-class="menu==1?'selected':''" @click="showOrderList">
-          <h3 style="text-align: center;">{{ctrl.orders.length}}笔</h3>
+        <a href="javascript:;" class="weui_grid js_grid selected" @click="showOrderList">
+          <h3 style="text-align: center;">{{user.wallet.orderCount}}笔</h3>
           <p class="weui_grid_label">我的订单</p>
         </a>
         <a href="javascript:;" class="weui_grid js_grid" ng-class="menu==2?'selected':''" @click="showRelation">
-          <h3 style="text-align: center;">{{ctrl.summary.totalRelations}}人</h3>
+          <h3 style="text-align: center;">{{user.wallet.friendCount}}人</h3>
           <p class="weui_grid_label">我的朋友</p>
         </a>
         <a href="javascript:;" class="weui_grid js_grid" ng-class="menu==3?'selected':''" @click="showWithdraw">
-          <h3 style="text-align: center;">{{app.curUser.commission.total}}元</h3>
+          <h3 style="text-align: center;">{{user.wallet.commission}}元</h3>
           <p class="weui_grid_label">我的钱包</p>
         </a>
       </div>
@@ -58,7 +58,7 @@ export default {
   },
 
   ready: function() {
-    this.load()
+    this.loadUser()
   },
   methods: {
     showRelation: function() {
@@ -70,10 +70,10 @@ export default {
     showOrderList() {
       this.menu = 1
     },
-    load() {
+    loadUser() {
       const self = this
-      this.$http.get(constants.serviceUrl + '/withdrawrequests').then(function(res) {
-        self.list = res.data.data.content
+      this.$http.get(constants.serviceUrl + '/users/current').then(function(res) {
+        self.user = res.data.data
       }, function(res) {
         console.log(res)
       })
@@ -90,7 +90,8 @@ export default {
   },
   data() {
     return {
-      menu: 1
+      menu: 1,
+      user: null
     }
   }
 }
