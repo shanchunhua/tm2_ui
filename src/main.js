@@ -36,7 +36,7 @@ import ServiceOrderForm from './components/ServiceOrderForm'
 import CustomerCardList from './components/CustomerCardList'
 import StoreProductList from './components/StoreProductList'
 import CardUsageRecord from './components/CardUsageRecord'
-import UserList from './components/UserList'
+import StaffUserList from './components/StaffUserList'
 import StoreMemberList from './components/StoreMemberList'
 import StoreCustomerList from './components/StoreCustomerList'
 import StoreSubscriberList from './components/StoreSubscriberList'
@@ -178,8 +178,8 @@ router.map({
   '/cardusagerecord': {
     component: CardUsageRecord
   },
-  '/userlist': {
-    component: UserList
+  '/staffuserlist': {
+    component: StaffUserList
   },
   '/storememberlist': {
     component: StoreMemberList

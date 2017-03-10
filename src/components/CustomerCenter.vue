@@ -46,7 +46,7 @@ import {
 } from 'vux/src/components'
 import OrderList from './OrderList'
 import WithdrawRecord from './WithdrawRecord'
-import UserList from './UserList'
+import UserList from './_UserList'
 import constants from '../constants'
 export default {
   components: {
