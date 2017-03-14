@@ -1,11 +1,6 @@
 <template>
   <div class="page">
-    <div class="hd">
-      <div class="page_title">
-        <img alt="" class="avatar" src="{{user.headimgurl}}">
-      </div>
-      <p class="page_desc">{{user.nickname}}</p>
-    </div>
+    <user-center-header></user-center-header>
     <div class="bd">
       <div class="weui_grids">
         <a href="javascript:;" class="weui_grid js_grid selected" @click="showOrderList">
@@ -47,19 +42,19 @@ import {
 import OrderList from './OrderList'
 import WithdrawRecord from './WithdrawRecord'
 import UserList from './_UserList'
+import UserCenterHeader from './_UserCenterHeader'
 import constants from '../constants'
 export default {
   components: {
     Group,
     Cell,
+    UserCenterHeader,
     OrderList,
     WithdrawRecord,
     UserList
   },
 
-  ready: function() {
-    this.loadUser()
-  },
+  ready: function() {},
   methods: {
     showRelation: function() {
       this.menu = 2
@@ -69,14 +64,6 @@ export default {
     },
     showOrderList() {
       this.menu = 1
-    },
-    loadUser() {
-      const self = this
-      this.$http.get(constants.serviceUrl + '/users/current').then(function(res) {
-        self.user = res.data.data
-      }, function(res) {
-        console.log(res)
-      })
     },
     withdraw() {
       var self = this
@@ -90,8 +77,7 @@ export default {
   },
   data() {
     return {
-      menu: 1,
-      user: null
+      menu: 1
     }
   }
 }

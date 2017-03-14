@@ -1,11 +1,6 @@
 <template>
   <div class="page">
-    <div class="hd">
-      <div class="page_title">
-        <img alt="" class="avatar" ng-src="{{::app.curUser.headimgurl}}">
-      </div>
-      <p class="page_desc">{{::app.curUser.nickname}}</p>
-    </div>
+    <user-center-header></user-center-header>
     <div class="bd">
       <div class="weui_grids">
         <a href="javascript:;" class="weui_grid js_grid" ng-class="menu==1?'selected':''" @click="showOrderList">
@@ -55,11 +50,13 @@
 <script>
 import OrderList from './_StaffOrderList'
 import WithdrawRecord from './WithdrawRecord'
+import UserCenterHeader from './_UserCenterHeader'
 import constants from '../constants'
 export default {
   components: {
     OrderList,
-    WithdrawRecord
+    WithdrawRecord,
+    UserCenterHeader
   },
 
   ready: function() {
