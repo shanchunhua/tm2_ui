@@ -3,7 +3,7 @@
   <x-header>我是发品商</x-header>
     <div class="vux-demo">
     <img class="logo" src="../assets/vux_logo.png">
-    <h1>xxxx</h1>
+    <h1>您的申请正在审核中</h1>
   </div>
     <group>
       <cell title="发品商名称" :value="supplier.name"></cell>
