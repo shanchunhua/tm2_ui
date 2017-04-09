@@ -5,9 +5,9 @@
       <cell title="产品名称" :value="product.name"></cell>
       <cell title="产品单价" :value="product.price"></cell>
       <x-number title="购买数量" :min="1" :value.sync="order.quantity"></x-number>
-      <cell title="实付金额" :value="product.price*order.quantity"></cell>
+      <cell title="实付金额" :value="(product.price*order.quantity).toFixed(2)"></cell>
       <cell title="体验金比例" :value="product.catalog.experienceMoneyRate">%</cell>
-      <cell title="体验金" :value="product.catalog.experienceMoneyRate/100*product.price*order.quantity"></cell>
+      <cell title="体验金" :value="(product.catalog.experienceMoneyRate/100*product.price*order.quantity).toFixed(2)"></cell>
     </group>
     <group>
       <cell title="店铺名称" :value="store.name"></cell>
