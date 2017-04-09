@@ -244,6 +244,7 @@ Vue.http.get(constants.serviceUrl + '/wechat/payment/config').then(function (res
 }, function (res) {
   console.log(res)
 })
+
 Vue.http.interceptors.push(function (request, next) {
   // modify request
   console.log('before request')

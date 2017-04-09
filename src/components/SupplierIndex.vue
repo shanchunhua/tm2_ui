@@ -4,7 +4,7 @@
     <div class="avatar">
       <img src="http://wx.qlogo.cn/mmopen/lzRBkYgd0zCwQlNJMIHOEpUFuDp8pk3ZyWTWic27EQZapVibYExhXaqDbP0g0wM8cDOzIMiapyOicJUYqHYazFF5pE2XWhFIpypb/0" />
     </div>
-    <div style="padding-top:30px;margin-left:10px;float:left;">
+    <div style="padding-top:30px;margin-left:10px;float:right;">
       <p>{{summary.supplier.name}}</p>
       <p>{{summary.supplier.address}}</p>
     </div>
@@ -20,7 +20,7 @@
     </tab-item>
     <tab-item class="vux-center menu">
       <div>
-        <p><span class="number">{{summary.totalAmount}}</span><span>元</span></p>我的业绩</div>
+        <p><span class="number">{{summary.supplier.wallet.total}}</span><span>元</span></p>我的业绩</div>
     </tab-item>
   </tab>
   <swiper :index.sync="index" :show-dots="false" height="1px">
@@ -68,15 +68,15 @@
       <div style="height:100px;margin-top:30px;">
         <div style="float:left;height:100px">
           <p>当前剩余金额</p>
-          <p><span style="font-size:22px;">123</span>元</p>
+          <p><span style="font-size:22px;">{{summary.supplier.wallet.left}}</span>元</p>
         </div>
         <div style="float:right;padding-top:10px;">
           <x-button mini type="primary" style="width:90px;">提现</x-button>
-          <p>已提现1200元</p>
+          <p>已提现{{summary.supplier.wallet.withdrawed}}元</p>
         </div>
       </div>
       <p style="margin-bottom:10px;">提现记录</p>
-      <p style="border-bottom:1px dotted #000;height:25px; " v-for="req of withdrawrequests"><span>体现{{req.amount}}元</span><span class="right">{{req.createdTime|moment}}</span></p>
+      <p style="border-bottom:1px dotted #000;height:25px; " v-for="req of withdrawrequests"><span>提现{{req.amount}}元</span><span class="right">{{req.createdTime|moment}}</span></p>
     </div>
   </div>
 </template>
@@ -178,7 +178,7 @@ export default {
     loadWithdrawRequests: function() {
       const self = this
       this.$http.get(constants.serviceUrl + '/withdrawrequests').then(function(res) {
-        self.withdrawrequests = res.data.data
+        self.withdrawrequests = res.data.data.content
       }, function(res) {
         console.log(res)
       })
@@ -187,6 +187,19 @@ export default {
       const self = this
       this.$http.get(constants.serviceUrl + '/suppliers/summary').then(function(res) {
         self.summary = res.data.data
+      }, function(res) {
+        console.log(res)
+      })
+    },
+    loadSupplier: function() {
+      const self = this
+      this.$http.get(constants.serviceUrl + '/suppliers/current').then(function(res) {
+        self.supplier = res.data.data
+        self.bannerList = [self.suppier.banner1, self.suppier.banner2, self.suppier.banner3]
+        self.imageList = self.bannerList.map((one, index) => ({
+          img: one,
+          url: 'javascript:'
+        }))
       }, function(res) {
         console.log(res)
       })

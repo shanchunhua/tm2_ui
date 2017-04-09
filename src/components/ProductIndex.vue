@@ -8,7 +8,7 @@
       <img src="http://placeholder.qiniudn.com/60x60/3cc51f/ffffff" />
       <div>
         <h4 class="weui_media_title">{{item.name}}</h4>
-        <p>类别<span class="right">{{item.supplier.name}}</span></p>
+        <p>{{item.catalog.name}}<span class="right" v-show="!item.supplier">{{item.supplier.name}}</span></p>
         <p>￥{{item.price}}元<span style="padding-left:20px;">{{item.catalog.experienceMoneyRate}}%体验金</span><span class="right">已销售100件</span></p>
       </div>
     </div>
@@ -134,6 +134,9 @@ export default {
       })
     },
     gotoBuy: function(id) {
+      if (this.user.type === 'SUPPLIER') {
+        return false
+      }
       console.log(id)
       this.$router.go({
         path: 'orderform',
