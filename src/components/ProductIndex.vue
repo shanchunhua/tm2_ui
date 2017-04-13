@@ -62,6 +62,7 @@ export default {
       type: '1',
       imageList: imageList,
       catalog: [],
+      selectedCatalog: null,
       catalogs: null,
       products: null
     }
@@ -74,7 +75,8 @@ export default {
           self.catalogs = [res.data.data.map(function(o) {
             return {
               name: o.name,
-              value: o.name
+              value: o.name,
+              id: o.id
             }
           })]
           console.log(self.catalogs)
@@ -85,7 +87,11 @@ export default {
     },
     loadProducts: function() {
       var self = this
-      this.$http.get(constants.serviceUrl + '/products').then(function(res) {
+      var url = constants.serviceUrl + '/products'
+      if (this.selectedCatalog != null) {
+        url += '?id=' + this.selectedCatalog.id
+      }
+      this.$http.get(url).then(function(res) {
         console.log(res)
         self.products = res.data.data
         console.log(self.products)
@@ -150,6 +156,22 @@ export default {
     'catalog': function(val) {
       console.log('catalog changed')
       console.log(val)
+      var name = val[0]
+      if (name === '全部') {
+        this.selectedCatalog = null
+      } else {
+        console.log(this.catalogs)
+        console.log(val[0])
+        var catalogs = this.catalogs[0]
+        for (var i = 0; i < catalogs.length; i++) {
+          if (catalogs[i].name === name) {
+            this.selectedCatalog = catalogs[i]
+            break
+          }
+        }
+      }
+      console.log(this.selectedCatalog)
+      this.loadProducts()
     }
   }
 }
